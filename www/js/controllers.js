@@ -286,3 +286,106 @@ angular.module('BookStoreApp.controllers', [])
     }
 ])
 
+.controller('LoginController',
+
+    function($rootScope, $ionicModal, AuthFactory, $location, UserFactory, $scope, Loader) {
+
+        $rootScope.$on('showLoginModal', function($event, scope, cancelCallback, callback) {
+            $scope.user = {
+                email: '',
+                password: ''
+            };
+
+            $scope = scope || $scope;
+
+            $scope.viewLogin = true;
+
+            $ionicModal.fromTemplateUrl('templates/login.html', {
+                scope: $scope
+            }).then(function(modal) {
+                $scope.modal = modal;
+                $scope.modal.show();
+
+                $scope.switchTab = function(tab) {
+                    if (tab === 'login') {
+                        $scope.viewLogin = true;
+                    } else {
+                        $scope.viewLogin = false;
+                    }
+                }
+
+                $scope.hide = function() {
+                    $scope.modal.hide();
+                    if (typeof cancelCallback === 'function') {
+                        cancelCallback();
+                    }
+                }
+
+                $scope.login = function() {
+                    Loader.showLoading('Authenticating...');
+
+                    UserFactory.login($scope.user).success(function(data) {
+
+                        data = data.data;
+                        AuthFactory.setUser(data.user);
+                        AuthFactory.setToken({
+                            token: data.token,
+                            expires: data.expires
+                        });
+
+                        $rootScope.isAuthenticated = true;
+                        $scope.modal.hide();
+                        Loader.hideLoading();
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
+                    }).error(function(err, statusCode) {
+                        Loader.hideLoading();
+                        Loader.toggleLoadingWithMessage(err.message);
+                    });
+                }
+
+                $scope.register = function() {
+                    Loader.showLoading('Registering...');
+
+                    UserFactory.register($scope.user).success(function(data) {
+
+                        data = data.data;
+                        AuthFactory.setUser(data.user);
+                        AuthFactory.setToken({
+                            token: data.token,
+                            expires: data.expires
+                        });
+
+                        $rootScope.isAuthenticated = true;
+                        Loader.hideLoading();
+                        $scope.modal.hide();
+                        if (typeof callback === 'function') {
+                            callback();
+                        }
+                    }).error(function(err, statusCode) {
+                        Loader.hideLoading();
+                        Loader.toggleLoadingWithMessage(err.message);
+                    });
+                }
+            });
+        });
+
+        $rootScope.loginFromMenu = function() {
+            $rootScope.$broadcast('showLoginModal', $scope, null, null);
+        }
+
+        // $rootScope.logout = function() {
+        //     UserFactory.logout();
+        //     $rootScope.isAuthenticated = false;
+        //     $location.path('/app/browse');
+        //     Loader.toggleLoadingWithMessage('Successfully Logged Out!', 2000);
+        // }
+
+        //this method will be called whenever the state will be loaded.
+        //this method renders the ionic modal which consists of login and registration screen 
+        $rootScope.loginFromMenu();
+
+
+    })
+
