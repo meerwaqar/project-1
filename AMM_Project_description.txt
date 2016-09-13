@@ -1,0 +1,57 @@
+Ionic & Android smartwatch project
+
+Context
+Application for smartphone with search of spectacles, spectacle details,purchase tickets and list of purchased tickets for each spectacle.
+
+Job- App - Login
+• Access to the application is subject to prior authentication
+users.
+• Authentication consist of a username and password,
+to be validated with data stored previously.
+
+Job- App - spectacles lists
+• After logging in the user can navigate the application areas via tabs.
+• There should be the following tabs: Search, tickets.
+• The research should present a list of spectacles organized by categories, with free text search field. The search will filter the list itself for delivering the results. Each element of the list must include: spectacle name, spectacle photo, date and location.
+• Section tickets must present a list of the spectacles for which tickets were purchased. Each element of the list must include: spectacles name, 
+spectacles photo, date, location and amount of tickets purchased.
+• When selecting an item from the list, should open the detail screen respective.
+
+Job - App - Detail screen
+• The detail screen of the show, including: name, category, photo of the show, description, location, date / time, Artist (s) and promoter.
+• It should be possible to open the screen to purchase tickets.
+• In the case of tickets purchased detail screen for spectacle, to be presented summary information on the spectacle: name, location and the date / time; with possibility to open the detail screen to show more information.
+• The ticket detail screen, should also include information tipe and  quantity purchased tickets, and the total cost.
+
+Job- App - Buy Tickets
+• The ticket purchase screen for a spectacle should allow choose the ticket type (for eg balcony, arena, box) and the amount.
+• The type of ticket must be chosen through a list of simple choice. The amount should be entered via numeric text field.
+• Should be presented the unit cost for each type of ticket and automatically calculated and presented the cost total according the amount chosen.
+
+############################################################
+
+Application for smartwatch with spectacles list
+with ticket purchased. location of visualization
+spectacles on the map.
+
+Job- Smartwatch App
+• List of spectacles with ticket
+- List of spectacles
+- Each show includes information on: name the spectacle, localizaçãoe date / time
+- When selecting a spectacle opens new screen with location on map local where this run.
+
+############################################################
+
+Work - Evaluation
+• functional component (40%)
+- Correct operation of the screens
+- Implementation of the requested features
+- Valued adding extra features
+• graphical component (30%)
+- Consistency in the use of graphical components
+- Correct use of layouts
+- Prized customization of graphics
+• technical component (30%)
+- Correct use of the Android SDK and Framework Ionic
+- No bugs or crashes
+- Programming in accordance with good practice, including the right indentation code
