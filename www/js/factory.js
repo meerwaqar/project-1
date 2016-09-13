@@ -147,8 +147,8 @@ angular.module('BookStoreApp.factory', [])
     return API;
 }])
 
-.factory('UserFactory', ['$http', 'AuthFactory',
-    function($http, AuthFactory) {
+.factory('UserFactory', ['$http', 'AuthFactory', 'LocalStorageFactory',
+    function($http, AuthFactory, LocalStorageFactory) {
 
         var UserAPI = {
 
@@ -157,7 +157,8 @@ angular.module('BookStoreApp.factory', [])
             },
 
             register: function(user) {
-                return $http.post(base + '/register', user);
+                // return $http.post(base + '/register', user);
+                LocalStorageFactory.getObject(user.email);
             },
 
             logout: function() {
@@ -189,3 +190,31 @@ angular.module('BookStoreApp.factory', [])
         return UserAPI;
     }
 ])
+
+.factory('LocalStorageFactory', function(){
+
+    /**
+     * This factory deals with storing and retrieving data from browser's local storage also know as cache
+     */
+
+    var setObject = function(obj,key){
+        window.localStorage[key] = angular.toJson(obj);
+    }
+
+    var getObject = function(key){
+        var obj = window.localStorage[key];
+        if (obj == undefined){
+            return false
+        } else{
+            return obj;
+        }
+    }
+
+    return {
+        setObject : setObject,
+        getObject : getObject
+    }
+
+    // window.localStorage['storageName']
+
+})

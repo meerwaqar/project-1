@@ -288,7 +288,7 @@ angular.module('BookStoreApp.controllers', [])
 
 .controller('LoginController',
 
-    function($rootScope, $ionicModal, AuthFactory, $location, UserFactory, $scope, Loader) {
+    function($rootScope, $ionicModal, AuthFactory, $location, UserFactory, $scope, Loader, LocalStorageFactory) {
 
         $rootScope.$on('showLoginModal', function($event, scope, cancelCallback, callback) {
             $scope.user = {
@@ -346,27 +346,33 @@ angular.module('BookStoreApp.controllers', [])
                 }
 
                 $scope.register = function() {
-                    Loader.showLoading('Registering...');
 
-                    UserFactory.register($scope.user).success(function(data) {
+                    
+                    // Loader.showLoading('Registering...');
 
-                        data = data.data;
-                        AuthFactory.setUser(data.user);
-                        AuthFactory.setToken({
-                            token: data.token,
-                            expires: data.expires
-                        });
 
-                        $rootScope.isAuthenticated = true;
-                        Loader.hideLoading();
-                        $scope.modal.hide();
-                        if (typeof callback === 'function') {
-                            callback();
-                        }
-                    }).error(function(err, statusCode) {
-                        Loader.hideLoading();
-                        Loader.toggleLoadingWithMessage(err.message);
-                    });
+                    //here will come the code to register the user
+                    //means to put user information on browser cache
+
+                    // UserFactory.register($scope.user).success(function(data) {
+
+                    //     data = data.data;
+                    //     AuthFactory.setUser(data.user);
+                    //     AuthFactory.setToken({
+                    //         token: data.token,
+                    //         expires: data.expires
+                    //     });
+
+                    //     $rootScope.isAuthenticated = true;
+                    //     Loader.hideLoading();
+                    //     $scope.modal.hide();
+                    //     if (typeof callback === 'function') {
+                    //         callback();
+                    //     }
+                    // }).error(function(err, statusCode) {
+                    //     Loader.hideLoading();
+                    //     Loader.toggleLoadingWithMessage(err.message);
+                    // });
                 }
             });
         });
