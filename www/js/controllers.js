@@ -288,7 +288,7 @@ angular.module('BookStoreApp.controllers', [])
 
     })
 
-    .controller('TicketPurchaseController', function ($scope, $stateParams, $ionicHistory) {
+    .controller('TicketPurchaseController', function ($scope, $stateParams, $state, $ionicHistory) {
 
         /**
          * scope variables
@@ -304,37 +304,41 @@ angular.module('BookStoreApp.controllers', [])
             $ionicHistory.goBack(); // ionic's pre defined method to go to previous state'
         }
 
-        var getCost = function(type){
+        var getCost = function (type) {
             var result = null;
-            switch(type){
+            switch (type) {
                 case 'Balcony':
-                result = 34.6;
-                break;
+                    result = 34.6;
+                    break;
                 case 'Arena':
-                result = 28.4;
-                break;
+                    result = 28.4;
+                    break;
                 case 'Box':
-                result = 12.9;
-                break;
+                    result = 12.9;
+                    break;
             }
 
             return result;
         }
 
         $scope.addtoTable = function (type, amount) {
-             var cost = getCost(type);
+            var cost = getCost(type);
             //temporary object that we will format and insert in $scope.table
             var obj = {
-                type : type,
-                cost : cost,
-                amount : amount
+                type: type,
+                cost: cost,
+                amount: amount
             };
 
-            var tempCost = cost*amount;
+            var tempCost = cost * amount;
 
-            $scope.totalCost +=tempCost;
+            $scope.totalCost += tempCost;
 
             $scope.table.push(obj);
+        }
+
+        $scope.gotoDetail = function (data) {
+            $state.go('spec-detail', { obj: data });
         }
 
     })

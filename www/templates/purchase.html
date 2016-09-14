@@ -6,7 +6,7 @@
         <h1 class="title">Ticket Purchase</h1>
     </ion-header-bar>
     <ion-content>
-        <div class="list card">
+        <div class="list card" ng-click="gotoDetail(spectacle)">
             <div class="item">
                 <h2>Name : {{::spectacle.name}}</h2>
                 <p>Date : {{::spectacle.date | date:'medium'}}</p>
@@ -66,5 +66,9 @@
                 Total cost : {{totalCost | number:2}}
             </div>
         </div>
+
+        <button class="button button-assertive button-block" ng-click="purchase(spectacle)" ng-disabled="table.length < 1"> 
+                	<i class="ion-social-euro-outline" >   </i> Purchese Ticket
+        </button>
     </ion-content>
 </ion-view>
