@@ -81,16 +81,6 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                     }
                 })
 
-                .state('app.book', {
-                    url: "/book/:bookId",
-                    views: {
-                        'menuContent': {
-                            templateUrl: "templates/book.html",
-                            controller: 'BookCtrl'
-                        }
-                    }
-                })
-
                 .state('app.ticket', {
                     url: "/ticket",
                     views: {
@@ -99,10 +89,25 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                             controller: 'TicketController'
                         }
                     }
+                })
+
+                /**
+                 * Spectacle Detail screen state
+                 */
+
+                .state('spec-detail', {
+                    url: "/detail",
+                    templateUrl: "templates/detail.html",
+                    controller: 'DetailController',
+                    params    : { //stateParams that we will get from controller which will call transition to this state
+                        obj : null
+                    }
                 });
+
+
+
             // if none of the above states are matched, use this as the fallback
             $urlRouterProvider.otherwise('/app/search');
-            // $urlRouterProvider.otherwise('/login');
         }
     ])
 

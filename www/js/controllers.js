@@ -196,12 +196,12 @@ angular.module('BookStoreApp.controllers', [])
     })
 
 
-    .controller('SearchController', function ($scope, SpectaclesDataFactory) {
+    .controller('SearchController', function ($scope, SpectaclesDataFactory, $state) {
         /**
          * scope variables
          */
         $scope.spectacleList = [];
-        var showData = [];
+        var Data = [];
         $scope.search = {
             str: ''
         }
@@ -212,9 +212,9 @@ angular.module('BookStoreApp.controllers', [])
          */
 
         var getAllSpecs = function () {
-            SpectaclesDataFactory.getShowsList().then(
+            SpectaclesDataFactory.getSpectacleList().then(
                 function (success) {
-                    showData = success;
+                    Data = success;
                     $scope.spectacleList = success;
                     console.log(success);
                 },
@@ -225,7 +225,7 @@ angular.module('BookStoreApp.controllers', [])
         }
 
         $scope.searchList = function (str) {
-            SpectaclesDataFactory.searchShow(str,showData).then(
+            SpectaclesDataFactory.searchSpectacle(str,Data).then(
                 function (success) {
                     $scope.spectacleList = success;
                     console.log(success);
@@ -244,6 +244,12 @@ angular.module('BookStoreApp.controllers', [])
         }
 
         getAllSpecs(); //getting data from factory
+
+        $scope.gotoDetail = function(data){
+            console.log(data);
+
+            $state.go('spec-detail', {obj : data});
+        }
     })
 
     .controller('TicketController', function ($scope, TicketsData) {
@@ -257,18 +263,23 @@ angular.module('BookStoreApp.controllers', [])
          * methods
          */
 
-        var getShowData = function(){
-            TicketsData.getShowsList().then(
-                function(success){
-                    allShows = success;
-                    $scope.list = success;
-                },
-                function(error){
 
-                }
-            )
+    })
+
+    .controller('DetailController', function($scope, $stateParams, $ionicHistory){
+        /**
+         * scope variables
+         */
+        //check if state param is not null
+        $scope.spectacle = $stateParams.obj === null ? '' : $stateParams.obj;
+
+        /**
+         * methods
+         */
+
+        $scope.goBack = function(){
+            $ionicHistory.goBack(); // ionic's pre defined method to go to previous state'
         }
-        getShowData();
 
 
     })

@@ -238,36 +238,43 @@ angular.module('BookStoreApp.factory', [])
     })
 
     .factory('SpectaclesDataFactory', function ($q) {
-        var shows = [];
+        var spectacles = [];
 
         function randomDate(start, end) {
             return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
         }
 
-        var populateShows = function () {
+        var populateData = function () {
 
             //generating random data
             for (var i = 0; i < 20; i++) {
+                var num = i%2 == 0 ? '1' : '2'; 
                 var obj = {
+                    id : i,
                     name: 'name ' + i,
                     photo: i % 2 == 0 ? 'img/0.jpg' : 'img/1.jpg',
                     date: randomDate(new Date(), new Date(2016, 12, 21)),
-                    location: 'location ' + i + 1
+                    location: 'location ' + i + 1,
+                    purchases : 0,
+                    category : 'category '+ num,
+                    description : 'this is a very nice spectacle',
+                    artist : ['artist1', 'artist2'],
+                    promoter : 'm&G'
                 }
-                shows.push(obj);
+                spectacles.push(obj);
             }
         }
 
-        var getShowsList = function () {
+        var getSpectacleList = function () {
 
-            populateShows();
+            populateData();
             var deffered = $q.defer();
-            deffered.resolve(shows);
+            deffered.resolve(spectacles);
 
             return deffered.promise;
         }
 
-        var searchShow = function (str, data) {
+        var searchSpectacle = function (str, data) {
             var result = [];
             var deffered = $q.defer();
             angular.forEach(data, function (item) {
@@ -282,8 +289,8 @@ angular.module('BookStoreApp.factory', [])
         }
 
         return {
-            getShowsList: getShowsList,
-            searchShow: searchShow
+            getSpectacleList: getSpectacleList,
+            searchSpectacle: searchSpectacle
         }
     })
 

@@ -8,13 +8,13 @@
         </div>
         <ion-list>
             <div class="row responsive-sm">
-                <ion-item class="col-50" ng-repeat="show in spectacleList" ng-href>
+                <ion-item class="col-50" ng-repeat="item in spectacleList" ng-click="gotoDetail(item)">
                     <div class="item-thumbnail-left">
-                        <img ng-src="{{::show.photo}}">
-                        <h2>{{::show.name}}</h2>
-                        <p>{{::show.date | date : medium}}</p>
+                        <img ng-src="{{::item.photo}}">
+                        <h2>{{::item.name}}</h2>
+                        <p>{{::item.date | date : medium}}</p>
                         <p>
-                            {{::show.location}}
+                            {{::item.location}}
                         </p>
                     </div>
                 </ion-item>

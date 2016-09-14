@@ -1,0 +1,35 @@
+<ion-view view-title="{{::spectacle.name}}" hide-back-button="true" cache-view="false">
+    <ion-header-bar align-title="left" class="bar-assertive">
+        <div class="buttons"> 
+            <a class="button icon-left ion-chevron-left button-clear" ng-click="goBack()"></a> 
+        </div>
+        <h1 class="title">{{::spectacle.name}}</h1>
+    </ion-header-bar>
+    <ion-content>
+        <div class="list card">
+            <div class="item">
+                <h2>Name : {{::spectacle.name}}</h2>
+                <p>Date : {{::spectacle.date | date:'yyyy-MM-dd'}}</p>
+                <p>Category : {{::spectacle.category}}</p>
+                <p>Promoter : {{::spectacle.promoter}}</p>
+            </div>
+            <div class="item item-body">
+                <img class="full-image" ng-src="{{::spectacle.photo}}">
+                <p>
+                    Location : {{::spectacle.location}}
+                </p>
+                <p>
+                    <b>Description :</b> {{::spectacle.description}}
+                </p>
+                <p class="row">
+                    <label class="col">
+                        Artist(s) : <i ng-repeat="i in spectacle.artist track by $index">{{::i}} </i>
+                    </label>
+                </p>
+                <button class="button button-assertive button-block" ng-click="addToCart()"> 
+                	<i class="icon ion-checkmark"></i> Add to Cart
+                </button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
