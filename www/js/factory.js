@@ -133,32 +133,50 @@ angular.module('BookStoreApp.factory', [])
 
 }])
 
-
-.factory('BooksFactory', ['$http', function($http) {
-
-    var perPage = 30;
-
-    var API = {
-        get: function(page) {
-            return $http.get(base + '/api/v1/books/' + page + '/' + perPage);
-        }
-    };
-
-    return API;
-}])
-
-.factory('UserFactory', ['$http', 'AuthFactory', 'LocalStorageFactory',
-    function($http, AuthFactory, LocalStorageFactory) {
+.factory('UserFactory', ['$http', 'AuthFactory', 'LocalStorageFactory','$q',
+    function($http, AuthFactory, LocalStorageFactory, $q) {
 
         var UserAPI = {
 
             login: function(user) {
-                return $http.post(base + '/login', user);
+
+                var deffered = $q.defer();
+
+                var obj = LocalStorageFactory.getObject(user.email);
+
+                if (!obj){
+                    deffered.reject('User does not exist');
+                }
+                else {
+                    if (obj.password != user.password){
+                        deffered.reject('Credentials does not match, please try again');
+                    }
+                    else {
+                        deffered.resolve(user);
+                    }
+                }
+
+                return deffered.promise;
+
             },
 
             register: function(user) {
-                // return $http.post(base + '/register', user);
-                LocalStorageFactory.getObject(user.email);
+
+                //A service that helps you run functions asynchronously, and use their return values (or exceptions) when they are done processing.
+                var deffered = $q.defer(); // we will use $q service of angularJS, 
+
+                var obj = LocalStorageFactory.getObject(user.email); //to see if user is already registered
+
+                if (!obj){
+                    LocalStorageFactory.setObject(user, user.email);
+                    deffered.resolve('User Registered Successfully');
+                } else {
+                    deffered.reject('User Already Registered using this email');
+                }
+
+                return deffered.promise;
+
+                
             },
 
             logout: function() {
@@ -191,18 +209,18 @@ angular.module('BookStoreApp.factory', [])
     }
 ])
 
-.factory('LocalStorageFactory', function(){
+.factory('LocalStorageFactory', function(LSFactory){
 
     /**
      * This factory deals with storing and retrieving data from browser's local storage also know as cache
      */
 
     var setObject = function(obj,key){
-        window.localStorage[key] = angular.toJson(obj);
+        LSFactory.set(key, obj);
     }
 
     var getObject = function(key){
-        var obj = window.localStorage[key];
+        var obj = LSFactory.get(key);
         if (obj == undefined){
             return false
         } else{

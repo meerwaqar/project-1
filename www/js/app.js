@@ -37,13 +37,31 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
 
             $stateProvider
 
-            /**
-             * State for login screen
-             */
+                /**
+                 * State for login screen
+                 */
                 .state('login', {
-                    url: "/login", 
-                            templateUrl: "templates/login.html",
-                            controller: 'LoginController'
+                    url: "/login",
+                    templateUrl: "templates/login.html",
+                    controller: 'LoginController',
+                    // resolve: {
+                    //     auth: function (AuthFactory, $q, $timeout, $state) {
+                    //         if (AuthFactory.isLoggedIn()) {
+
+
+                    //             $timeout(function () {
+                    //                 console.log('logged in')
+                    //                 $state.go('app.browse');
+                    //             },0);
+                    //             return $q.when();
+                    //         }
+                    //         else {
+                    //             console.log('user not logged in');
+                    //             return $q.reject();
+                    //         }
+
+                    //     }
+                    // }
                 })
 
                 .state('app', {
@@ -73,17 +91,6 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                     }
                 })
 
-                .state('app.cart', {
-                    url: "/cart",
-                    views: {
-                        'menuContent': {
-                            templateUrl: "templates/cart.html",
-                            controller: 'CartCtrl'
-                        }
-                    }
-                })
-
-
                 .state('app.purchases', {
                     url: "/purchases",
                     views: {
@@ -94,8 +101,8 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                     }
                 });
             // if none of the above states are matched, use this as the fallback
-            $urlRouterProvider.otherwise('/app/browse');
-            // $urlRouterProvider.otherwise('/login');
+            // $urlRouterProvider.otherwise('/app/browse');
+            $urlRouterProvider.otherwise('/login');
         }
     ])
 
