@@ -196,35 +196,57 @@ angular.module('BookStoreApp.controllers', [])
     })
 
 
-    .controller('SearchController', function($scope, SpectaclesDataFactory){
+    .controller('SearchController', function ($scope, SpectaclesDataFactory) {
         /**
          * scope variables
          */
         $scope.spectacleList = [];
+        var showData = [];
         $scope.search = {
-            str : ''
+            str: ''
         }
+         $scope.noData = false;
 
         /**
          * Methods
          */
 
-        var getAllSpecs = function(){
+        var getAllSpecs = function () {
             SpectaclesDataFactory.getShowsList().then(
-                function(success){
+                function (success) {
+                    showData = success;
                     $scope.spectacleList = success;
                     console.log(success);
                 },
-                function(error){
+                function (error) {
 
                 }
             )
         }
 
+        $scope.searchList = function (str) {
+            SpectaclesDataFactory.searchShow(str,showData).then(
+                function (success) {
+                    $scope.spectacleList = success;
+                    console.log(success);
+
+                    if ($scope.spectacleList.length < 1){
+                        $scope.noData = true;
+                    } else{
+                         $scope.noData = false;
+                    }
+                },
+                function (error) {
+
+                }
+            )
+            
+        }
+
         getAllSpecs(); //getting data from factory
     })
 
-    .controller('TicketController', function($scope){
+    .controller('TicketController', function ($scope) {
         console.log('welcome to ticket controller');
     })
 

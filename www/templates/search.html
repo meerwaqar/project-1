@@ -3,8 +3,8 @@
 
     <ion-content>
         <div class="search">
-            <input type="text" placeholder="Search Shows">
-            <span class="search"><button class="search-button">Search</button></span>
+            <input type="text" placeholder="Search Shows" ng-model="string">
+            <span class="search"><button class="search-button" ng-click="searchList(string)">Search</button></span>
         </div>
         <ion-list>
             <div class="row responsive-sm">
@@ -20,5 +20,6 @@
                 </ion-item>
             </div>
         </ion-list>
+        <div ng-show="noData" class="no-data"> No data found </div>
     </ion-content>
 </ion-view>

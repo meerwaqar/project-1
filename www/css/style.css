@@ -48,3 +48,7 @@
     cursor: pointer;
 
 }
+
+.no-data {
+    text-align: center
+}

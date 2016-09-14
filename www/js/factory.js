@@ -251,14 +251,14 @@ angular.module('BookStoreApp.factory', [])
                 var obj = {
                     name: 'name ' + i,
                     photo: i % 2 == 0 ? 'img/0.jpg' : 'img/1.jpg',
-                    date: randomDate(new Date(), new Date(2016,12,21)),
-                    location : 'location '+i+1
+                    date: randomDate(new Date(), new Date(2016, 12, 21)),
+                    location: 'location ' + i + 1
                 }
                 shows.push(obj);
             }
         }
 
-        var getShowsList = function(){
+        var getShowsList = function () {
 
             populateShows();
             var deffered = $q.defer();
@@ -267,7 +267,22 @@ angular.module('BookStoreApp.factory', [])
             return deffered.promise;
         }
 
+        var searchShow = function (str, data) {
+            var result = [];
+            var deffered = $q.defer();
+            angular.forEach(data, function (item) {
+                if (item.name.indexOf(str) != -1) { // if str is a substring of item.name
+                    result.push(item);
+                }
+            })
+            deffered.resolve(result);
+            return deffered.promise;
+
+
+        }
+
         return {
-            getShowsList : getShowsList
+            getShowsList: getShowsList,
+            searchShow : searchShow
         }
     })
