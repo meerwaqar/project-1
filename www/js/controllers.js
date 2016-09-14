@@ -246,7 +246,30 @@ angular.module('BookStoreApp.controllers', [])
         getAllSpecs(); //getting data from factory
     })
 
-    .controller('TicketController', function ($scope) {
-        console.log('welcome to ticket controller');
+    .controller('TicketController', function ($scope, TicketsData) {
+        /**
+         * scope variables
+         */
+        var allShows = [];
+        $scope.list = [];
+
+        /**
+         * methods
+         */
+
+        var getShowData = function(){
+            TicketsData.getShowsList().then(
+                function(success){
+                    allShows = success;
+                    $scope.list = success;
+                },
+                function(error){
+
+                }
+            )
+        }
+        getShowData();
+
+
     })
 

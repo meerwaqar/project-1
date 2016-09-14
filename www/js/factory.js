@@ -283,6 +283,45 @@ angular.module('BookStoreApp.factory', [])
 
         return {
             getShowsList: getShowsList,
-            searchShow : searchShow
+            searchShow: searchShow
         }
+    })
+
+    .factory('TicketsData', function ($q) {
+
+        var shows = [];
+
+        function randomDate(start, end) {
+            return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+        }
+
+        var populateShows = function () {
+
+            //generating random data
+            for (var i = 0; i < 20; i++) {
+                var obj = {
+                    name: 'name ' + i,
+                    photo: i % 2 == 0 ? 'img/0.jpg' : 'img/1.jpg',
+                    date: randomDate(new Date(), new Date(2016, 12, 21)),
+                    location: 'location ' + i + 1,
+                    ticketPurchased : 0
+                }
+                shows.push(obj);
+            }
+        }
+
+        var getShowsList = function () {
+
+            populateShows();
+            var deffered = $q.defer();
+            deffered.resolve(shows);
+
+            return deffered.promise;
+        }
+
+
+        return {
+            getShowsList : getShowsList
+        }
+
     })

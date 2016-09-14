@@ -4,13 +4,16 @@
 
         <ion-list>
             <div class="row responsive-sm">
-                <ion-item class="col-50" ng-repeat="show in spectacleList" ng-href>
+                <ion-item class="col-50" ng-repeat="show in list" ng-href>
                     <div class="item-thumbnail-left">
                         <img ng-src="{{::show.photo}}">
                         <h2>{{::show.name}}</h2>
                         <p>{{::show.date | date : medium}}</p>
                         <p>
                             {{::show.location}}
+                        </p>
+                        <p>
+                            Tickets purchased : {{::show.ticketPurchased}}
                         </p>
                     </div>
                 </ion-item>
