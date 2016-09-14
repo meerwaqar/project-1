@@ -71,12 +71,12 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                     controller: 'AppCtrl'
                 })
 
-                .state('app.browse', {
-                    url: "/browse",
+                .state('app.search', {
+                    url: "/search",
                     views: {
                         'menuContent': {
-                            templateUrl: "templates/browse.html",
-                            controller: 'BrowseCtrl'
+                            templateUrl: "templates/search.html",
+                            controller: 'SearchController'
                         }
                     }
                 })
@@ -91,17 +91,17 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                     }
                 })
 
-                .state('app.purchases', {
-                    url: "/purchases",
+                .state('app.ticket', {
+                    url: "/ticket",
                     views: {
                         'menuContent': {
-                            templateUrl: "templates/purchases.html",
-                            controller: 'PurchasesCtrl'
+                            templateUrl: "templates/ticket.html",
+                            controller: 'TicketController'
                         }
                     }
                 });
             // if none of the above states are matched, use this as the fallback
-            $urlRouterProvider.otherwise('/app/browse');
+            $urlRouterProvider.otherwise('/app/search');
             // $urlRouterProvider.otherwise('/login');
         }
     ])

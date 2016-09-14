@@ -133,7 +133,7 @@ angular.module('BookStoreApp.controllers', [])
                     console.log(success);
                     AuthFactory.setUser(success);
                     $rootScope.isAuthenticated = true;
-                    $state.go('app.browse');
+                    $state.go('app.search');
                 },
                 function (error) {
                     var alertPopup = $ionicPopup.alert({
@@ -193,5 +193,38 @@ angular.module('BookStoreApp.controllers', [])
         // $rootScope.loginFromMenu();
 
 
+    })
+
+
+    .controller('SearchController', function($scope, SpectaclesDataFactory){
+        /**
+         * scope variables
+         */
+        $scope.spectacleList = [];
+        $scope.search = {
+            str : ''
+        }
+
+        /**
+         * Methods
+         */
+
+        var getAllSpecs = function(){
+            SpectaclesDataFactory.getShowsList().then(
+                function(success){
+                    $scope.spectacleList = success;
+                    console.log(success);
+                },
+                function(error){
+
+                }
+            )
+        }
+
+        getAllSpecs(); //getting data from factory
+    })
+
+    .controller('TicketController', function($scope){
+        console.log('welcome to ticket controller');
     })
 
