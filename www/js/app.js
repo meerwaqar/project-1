@@ -101,8 +101,8 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                     }
                 });
             // if none of the above states are matched, use this as the fallback
-            // $urlRouterProvider.otherwise('/app/browse');
-            $urlRouterProvider.otherwise('/login');
+            $urlRouterProvider.otherwise('/app/browse');
+            // $urlRouterProvider.otherwise('/login');
         }
     ])
 
