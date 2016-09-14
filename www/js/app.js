@@ -99,10 +99,23 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                     url: "/detail",
                     templateUrl: "templates/detail.html",
                     controller: 'DetailController',
-                    params    : { //stateParams that we will get from controller which will call transition to this state
-                        obj : null
+                    params: { //stateParams that we will get from controller which will call transition to this state
+                        obj: null
                     }
-                });
+                })
+
+                /**
+                 * Ticket Purchase screen state
+                 */
+                .state('purchase', {
+                url: "/purchase",
+                templateUrl: "templates/purchase.html",
+                controller: 'TicketPurchaseController',
+                params: { //stateParams that we will get from controller which will call transition to this state
+                    obj: null
+                }
+            });
+
 
 
 

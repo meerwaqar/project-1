@@ -205,7 +205,7 @@ angular.module('BookStoreApp.controllers', [])
         $scope.search = {
             str: ''
         }
-         $scope.noData = false;
+        $scope.noData = false;
 
         /**
          * Methods
@@ -225,30 +225,30 @@ angular.module('BookStoreApp.controllers', [])
         }
 
         $scope.searchList = function (str) {
-            SpectaclesDataFactory.searchSpectacle(str,Data).then(
+            SpectaclesDataFactory.searchSpectacle(str, Data).then(
                 function (success) {
                     $scope.spectacleList = success;
                     console.log(success);
 
-                    if ($scope.spectacleList.length < 1){
+                    if ($scope.spectacleList.length < 1) {
                         $scope.noData = true;
-                    } else{
-                         $scope.noData = false;
+                    } else {
+                        $scope.noData = false;
                     }
                 },
                 function (error) {
 
                 }
             )
-            
+
         }
 
         getAllSpecs(); //getting data from factory
 
-        $scope.gotoDetail = function(data){
+        $scope.gotoDetail = function (data) {
             console.log(data);
 
-            $state.go('spec-detail', {obj : data});
+            $state.go('spec-detail', { obj: data });
         }
     })
 
@@ -266,7 +266,7 @@ angular.module('BookStoreApp.controllers', [])
 
     })
 
-    .controller('DetailController', function($scope, $stateParams, $ionicHistory){
+    .controller('DetailController', function ($scope, $stateParams, $state, $ionicHistory) {
         /**
          * scope variables
          */
@@ -277,10 +277,65 @@ angular.module('BookStoreApp.controllers', [])
          * methods
          */
 
-        $scope.goBack = function(){
+        $scope.goBack = function () {
             $ionicHistory.goBack(); // ionic's pre defined method to go to previous state'
         }
 
+        $scope.purchase = function (data) {
+            $state.go('purchase', { obj: data });
+        }
+
+
+    })
+
+    .controller('TicketPurchaseController', function ($scope, $stateParams, $ionicHistory) {
+
+        /**
+         * scope variables
+         */
+        $scope.spectacle = $stateParams.obj === null ? '' : $stateParams.obj;
+        $scope.table = [];
+        $scope.totalCost = 0;
+
+        /**
+         * methods
+         */
+        $scope.goBack = function () {
+            $ionicHistory.goBack(); // ionic's pre defined method to go to previous state'
+        }
+
+        var getCost = function(type){
+            var result = null;
+            switch(type){
+                case 'Balcony':
+                result = 34.6;
+                break;
+                case 'Arena':
+                result = 28.4;
+                break;
+                case 'Box':
+                result = 12.9;
+                break;
+            }
+
+            return result;
+        }
+
+        $scope.addtoTable = function (type, amount) {
+             var cost = getCost(type);
+            //temporary object that we will format and insert in $scope.table
+            var obj = {
+                type : type,
+                cost : cost,
+                amount : amount
+            };
+
+            var tempCost = cost*amount;
+
+            $scope.totalCost +=tempCost;
+
+            $scope.table.push(obj);
+        }
 
     })
 

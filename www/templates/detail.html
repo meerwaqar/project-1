@@ -9,7 +9,7 @@
         <div class="list card">
             <div class="item">
                 <h2>Name : {{::spectacle.name}}</h2>
-                <p>Date : {{::spectacle.date | date:'yyyy-MM-dd'}}</p>
+                <p>Date : {{::spectacle.date | date:'medium'}}</p>
                 <p>Category : {{::spectacle.category}}</p>
                 <p>Promoter : {{::spectacle.promoter}}</p>
             </div>
@@ -26,8 +26,8 @@
                         Artist(s) : <i ng-repeat="i in spectacle.artist track by $index">{{::i}} </i>
                     </label>
                 </p>
-                <button class="button button-assertive button-block" ng-click="addToCart()"> 
-                	<i class="icon ion-checkmark"></i> Add to Cart
+                <button class="button button-assertive button-block" ng-click="purchase(spectacle)"> 
+                	<i class="ion-social-euro-outline" >   </i> Purchase
                 </button>
             </div>
         </div>

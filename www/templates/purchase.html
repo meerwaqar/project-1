@@ -1,0 +1,70 @@
+<ion-view view-title="Ticket Purchase" hide-back-button="true" cache-view="false">
+    <ion-header-bar align-title="left" class="bar-assertive">
+        <div class="buttons">
+            <a class="button icon-left ion-chevron-left button-clear" ng-click="goBack()"></a>
+        </div>
+        <h1 class="title">Ticket Purchase</h1>
+    </ion-header-bar>
+    <ion-content>
+        <div class="list card">
+            <div class="item">
+                <h2>Name : {{::spectacle.name}}</h2>
+                <p>Date : {{::spectacle.date | date:'medium'}}</p>
+                <p>Location : {{::spectacle.location}}</p>
+            </div>
+
+            <div class="item item-body nopad">
+                <div class="list">
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                        Ticket Type
+                        </div>
+                        <select ng-model="select">
+                            <option value="Balcony">Balcony</option>
+                            <option value="Arena">Arena</option>
+                            <option value="Box">Box</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="item item-body nopad">
+                <div class="list">
+                    <label class="item item-input item-input">
+                        <div class="input-label">
+                        Amount
+                        </div>
+                        <input class="amount-input" placeholder="0" type="text" ng-model="amount">
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <div class="add-btn">
+            <button class="button" ng-click="addtoTable(select,amount)">Add</button>
+        </div>
+
+        <div class="list card">
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Type</th>
+                    <th>Cost</th>
+                    <th>Amount</th>
+                </tr>
+                <tr ng-repeat="item in table">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.cost}}</td>
+                    <td>{{item.amount}}</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="list right-al">
+            <div>
+                Total cost : {{totalCost | number:2}}
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

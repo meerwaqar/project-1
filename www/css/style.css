@@ -52,3 +52,37 @@
 .no-data {
     text-align: center
 }
+
+
+.amount-input{
+text-align: right;
+}
+
+.nopad{
+    padding: 0px;
+}
+
+.add-btn{
+    text-align: right;
+    padding-right: 10px;
+}
+.add-btn button{
+    width : 90px;
+    min-height: 20px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+.right-al{
+    text-align: right;
+    padding-right: 30px;
+}
