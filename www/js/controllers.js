@@ -86,7 +86,7 @@ angular.module('BookStoreApp.controllers', [])
 
     .controller('LoginController',
 
-    function ($rootScope, $ionicModal, AuthFactory, $location, $state, UserFactory, $scope, Loader, LocalStorageFactory, $ionicPopup) {
+    function ($rootScope, $ionicModal, AuthFactory,  $ionicHistory, $location, $state, UserFactory, $scope, Loader, LocalStorageFactory, $ionicPopup) {
 
 
         $scope.user = {
@@ -123,6 +123,11 @@ angular.module('BookStoreApp.controllers', [])
             } else {
                 $scope.viewLogin = false;
             }
+        }
+
+        $scope.close = function(){
+            console.log('now closing the app');
+            $ionicHistory.goBack();
         }
 
         $scope.login = function () {

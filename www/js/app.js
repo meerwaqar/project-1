@@ -43,25 +43,7 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                 .state('login', {
                     url: "/login",
                     templateUrl: "templates/login.html",
-                    controller: 'LoginController',
-                    // resolve: {
-                    //     auth: function (AuthFactory, $q, $timeout, $state) {
-                    //         if (AuthFactory.isLoggedIn()) {
-
-
-                    //             $timeout(function () {
-                    //                 console.log('logged in')
-                    //                 $state.go('app.browse');
-                    //             },0);
-                    //             return $q.when();
-                    //         }
-                    //         else {
-                    //             console.log('user not logged in');
-                    //             return $q.reject();
-                    //         }
-
-                    //     }
-                    // }
+                    controller: 'LoginController'
                 })
 
                 .state('app', {
@@ -108,13 +90,29 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                  * Ticket Purchase screen state
                  */
                 .state('purchase', {
-                url: "/purchase",
-                templateUrl: "templates/purchase.html",
-                controller: 'TicketPurchaseController',
-                params: { //stateParams that we will get from controller which will call transition to this state
-                    obj: null
-                }
-            });
+                    url: "/purchase",
+                    templateUrl: "templates/purchase.html",
+                    controller: 'TicketPurchaseController',
+                    params: { //stateParams that we will get from controller which will call transition to this state
+                        obj: null
+                    },
+                    resolve: {
+                        auth: function (AuthFactory, $q, $timeout, $state) {
+                            if (AuthFactory.isLoggedIn()) {
+                                console.log('user already logged in');
+                                return $q.when();
+                            }
+                            else {
+                                console.log('user not logged in');
+                                $timeout(function () {
+                                    $state.go('login');
+                                }, 0);
+                                return $q.reject();
+                            }
+
+                        }
+                    }
+                });
 
 
 
