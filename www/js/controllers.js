@@ -1,14 +1,21 @@
 angular.module('BookStoreApp.controllers', [])
 
-    .controller('AppCtrl', ['$rootScope', '$ionicModal', 'AuthFactory', '$location', 'UserFactory', '$scope', 'Loader',
-        function ($rootScope, $ionicModal, AuthFactory, $location, UserFactory, $scope, Loader) {
+    .controller('AppCtrl', ['$rootScope', '$ionicModal', 'AuthFactory', '$location', 'UserFactory', '$scope','TicketsDataService', 'Loader', '$state',
+        function ($rootScope, $ionicModal, AuthFactory, $location, UserFactory, $scope, TicketsDataService, Loader, $state) {
 
 
-            $rootScope.logout = function () {
+            $scope.logout = function () {
                 UserFactory.logout();
                 $rootScope.isAuthenticated = false;
-                $location.path('/login');
+                TicketsDataService.clearAll();
+                // $location.path('/login');
+                $state.go('login', { obj: null });
                 Loader.toggleLoadingWithMessage('Successfully Logged Out!', 2000);
+            }
+
+            $scope.login = function () {
+                $state.go('login', { obj: null });
+
             }
 
 
@@ -86,36 +93,13 @@ angular.module('BookStoreApp.controllers', [])
 
     .controller('LoginController',
 
-    function ($rootScope, $ionicModal, AuthFactory,  $ionicHistory, $location, $state, UserFactory, $scope, Loader, LocalStorageFactory, $ionicPopup) {
+    function ($rootScope, $ionicModal, $stateParams, AuthFactory, $ionicHistory, $location, $state, UserFactory, $scope, Loader, LocalStorageFactory, $ionicPopup) {
 
 
         $scope.user = {
             email: '',
             password: ''
         };
-        // $rootScope.$on('showLoginModal', function ($event, scope, cancelCallback, callback) {
-        //     $scope.user = {
-        //         email: '',
-        //         password: ''
-        //     };
-
-        //     $scope = scope || $scope;
-
-        //     $scope.viewLogin = true;
-
-        //     $ionicModal.fromTemplateUrl('templates/login.html', {
-        //         scope: $scope
-        //     }).then(function (modal) {
-        //         $scope.modal = modal;
-        //         $scope.modal.show();
-
-
-        //     });
-        // });
-
-        // $rootScope.loginFromMenu = function () {
-        //     $rootScope.$broadcast('showLoginModal', $scope, null, null);
-        // }
 
         $scope.switchTab = function (tab) {
             if (tab === 'login') {
@@ -125,7 +109,7 @@ angular.module('BookStoreApp.controllers', [])
             }
         }
 
-        $scope.close = function(){
+        $scope.close = function () {
             console.log('now closing the app');
             $ionicHistory.goBack();
         }
@@ -138,7 +122,11 @@ angular.module('BookStoreApp.controllers', [])
                     console.log(success);
                     AuthFactory.setUser(success);
                     $rootScope.isAuthenticated = true;
-                    $state.go('app.search');
+                    if ($stateParams.obj != null) { //if user if brought to the login page from purchase screen, redirect him back to purchase screen
+                        $state.go('purchase', { obj: $stateParams.obj });
+                    } else { //otherwise redirect him to main page
+                        $state.go('app.search');
+                    }
                 },
                 function (error) {
                     var alertPopup = $ionicPopup.alert({
@@ -257,16 +245,23 @@ angular.module('BookStoreApp.controllers', [])
         }
     })
 
-    .controller('TicketController', function ($scope, TicketsData) {
+    .controller('TicketController', function ($scope, TicketsDataService) {
         /**
          * scope variables
          */
-        var allShows = [];
         $scope.list = [];
 
         /**
          * methods
          */
+
+        var getTickets = function(){
+            $scope.list = TicketsDataService.getTickets();
+
+            console.log($scope.list);
+        }
+
+        getTickets();
 
 
     })
@@ -283,7 +278,7 @@ angular.module('BookStoreApp.controllers', [])
          */
 
         $scope.goBack = function () {
-            $ionicHistory.goBack(); // ionic's pre defined method to go to previous state'
+            $state.go('app.search');
         }
 
         $scope.purchase = function (data) {
@@ -293,7 +288,7 @@ angular.module('BookStoreApp.controllers', [])
 
     })
 
-    .controller('TicketPurchaseController', function ($scope, $stateParams, $state, $ionicHistory) {
+    .controller('TicketPurchaseController', function ($scope, TicketsDataService, $stateParams, $state, $ionicHistory) {
 
         /**
          * scope variables
@@ -301,12 +296,13 @@ angular.module('BookStoreApp.controllers', [])
         $scope.spectacle = $stateParams.obj === null ? '' : $stateParams.obj;
         $scope.table = [];
         $scope.totalCost = 0;
+        var totalTickets = 0;
 
         /**
          * methods
          */
         $scope.goBack = function () {
-            $ionicHistory.goBack(); // ionic's pre defined method to go to previous state'
+            $state.go('spec-detail', { obj: $scope.spectacle });
         }
 
         var getCost = function (type) {
@@ -328,6 +324,7 @@ angular.module('BookStoreApp.controllers', [])
 
         $scope.addtoTable = function (type, amount) {
             var cost = getCost(type);
+            totalTickets += parseInt(amount); //Keeping track of how many tickets are purchased.
             //temporary object that we will format and insert in $scope.table
             var obj = {
                 type: type,
@@ -344,6 +341,14 @@ angular.module('BookStoreApp.controllers', [])
 
         $scope.gotoDetail = function (data) {
             $state.go('spec-detail', { obj: data });
+        }
+
+        $scope.purchase = function(specData){
+
+            specData.totalTickets = totalTickets;
+            TicketsDataService.setTicket(specData);
+
+            
         }
 
     })

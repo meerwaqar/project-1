@@ -43,7 +43,10 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                 .state('login', {
                     url: "/login",
                     templateUrl: "templates/login.html",
-                    controller: 'LoginController'
+                    controller: 'LoginController',
+                    params : {
+                        obj : null
+                    }
                 })
 
                 .state('app', {
@@ -97,7 +100,7 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                         obj: null
                     },
                     resolve: {
-                        auth: function (AuthFactory, $q, $timeout, $state) {
+                        auth: function (AuthFactory, $q, $timeout, $state, $stateParams) {
                             if (AuthFactory.isLoggedIn()) {
                                 console.log('user already logged in');
                                 return $q.when();
@@ -105,7 +108,7 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                             else {
                                 console.log('user not logged in');
                                 $timeout(function () {
-                                    $state.go('login');
+                                    $state.go('login',{obj : $stateParams.obj});
                                 }, 0);
                                 return $q.reject();
                             }

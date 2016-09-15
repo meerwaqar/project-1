@@ -13,11 +13,15 @@
                             {{::show.location}}
                         </p>
                         <p>
-                            Tickets purchased : {{::show.ticketPurchased}}
+                            Tickets purchased : {{::show.totalTickets}}
                         </p>
                     </div>
                 </ion-item>
             </div>
         </ion-list>
+
+        <div ng-show="list.length < 1">
+            <p style="text-align:center">no data found</p>
+        </div>
     </ion-content>
 </ion-view>

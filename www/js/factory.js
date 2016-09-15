@@ -332,3 +332,20 @@ angular.module('BookStoreApp.factory', [])
         }
 
     })
+
+    .service('TicketsDataService', function(){
+        this.tickets = [];
+
+
+        this.setTicket = function(data){
+            this.tickets.push(data);
+        }
+
+        this.getTickets = function(){
+            return this.tickets;
+        }
+
+        this.clearAll = function(){
+            this.tickets = [];
+        }
+    })
