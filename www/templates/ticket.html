@@ -4,7 +4,7 @@
 
         <ion-list>
             <div class="row responsive-sm">
-                <ion-item class="col-50" ng-repeat="show in list" ng-href>
+                <ion-item class="col-50" ng-repeat="show in list" ng-href ng-click="gotoDetail(show)">
                     <div class="item-thumbnail-left">
                         <img ng-src="{{::show.photo}}">
                         <h2>{{::show.name}}</h2>

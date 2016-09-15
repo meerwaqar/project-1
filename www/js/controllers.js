@@ -120,7 +120,7 @@ angular.module('spectacleStore.controllers', [])
     })
 
 
-    .controller('SearchController', function ($scope, SpectaclesDataFactory, $state) {
+    .controller('SearchController', function ($scope, $rootScope,  SpectaclesDataFactory, $state) {
         /**
          * scope variables
          */
@@ -171,12 +171,13 @@ angular.module('spectacleStore.controllers', [])
 
         $scope.gotoDetail = function (data) {
             console.log(data);
-
+            $rootScope.fromTicket = false;
+            $rootScope.fromPurchase = false;
             $state.go('spec-detail', { obj: data });
         }
     })
 
-    .controller('TicketController', function ($scope, TicketsDataService) {
+    .controller('TicketController', function ($scope, TicketsDataService, $rootScope, $state) {
         /**
          * scope variables
          */
@@ -194,10 +195,16 @@ angular.module('spectacleStore.controllers', [])
 
         getTickets();
 
+        $scope.gotoDetail = function (data) {
+            $rootScope.fromTicket = true;
+            $rootScope.fromPurchase = false;
+            $state.go('spec-detail', { obj: data });
+        }
+
 
     })
 
-    .controller('DetailController', function ($scope, $stateParams, $state, $ionicHistory) {
+    .controller('DetailController', function ($scope, $stateParams, $rootScope,  $state, $ionicHistory) {
         /**
          * scope variables
          */
@@ -209,7 +216,15 @@ angular.module('spectacleStore.controllers', [])
          */
 
         $scope.goBack = function () {
-            $state.go('app.search');
+            if ($rootScope.fromTicket) {
+                console.log('going to tickets list');
+                $state.go('app.ticket');
+            } else if($rootScope.fromPurchase) { 
+                $ionicHistory.goBack();
+            }else{
+                console.log('going to search list');
+                $state.go('app.search');
+            }
         }
 
         $scope.purchase = function (data) {
@@ -219,7 +234,7 @@ angular.module('spectacleStore.controllers', [])
 
     })
 
-    .controller('TicketPurchaseController', function ($scope, $ionicPopup, TicketsDataService, $stateParams, $state, $ionicHistory) {
+    .controller('TicketPurchaseController', function ($scope, $rootScope, $ionicPopup, TicketsDataService, $stateParams, $state, $ionicHistory) {
 
         /**
          * scope variables
@@ -271,6 +286,8 @@ angular.module('spectacleStore.controllers', [])
         }
 
         $scope.gotoDetail = function (data) {
+            console.log(data);
+            $rootScope.fromPurchase = true;
             $state.go('spec-detail', { obj: data });
         }
 
