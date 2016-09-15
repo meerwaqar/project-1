@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreApp.factory'])
+angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'spectacleStore.factory'])
 
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
@@ -18,8 +18,8 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                 StatusBar.styleDefault();
             }
         });
-    }).run(['$rootScope', 'AuthFactory',
-        function ($rootScope, AuthFactory) {
+    }).run(['$rootScope', 'AuthFactory','$document',
+        function ($rootScope, AuthFactory, $document) {
 
             $rootScope.isAuthenticated = AuthFactory.isLoggedIn();
 
@@ -44,8 +44,8 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                     url: "/login",
                     templateUrl: "templates/login.html",
                     controller: 'LoginController',
-                    params : {
-                        obj : null
+                    params: {
+                        obj: null
                     }
                 })
 
@@ -108,7 +108,7 @@ angular.module('BookStoreApp', ['ionic', 'BookStoreApp.controllers', 'BookStoreA
                             else {
                                 console.log('user not logged in');
                                 $timeout(function () {
-                                    $state.go('login',{obj : $stateParams.obj});
+                                    $state.go('login', { obj: $stateParams.obj });
                                 }, 0);
                                 return $q.reject();
                             }

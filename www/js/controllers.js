@@ -1,6 +1,6 @@
-angular.module('BookStoreApp.controllers', [])
+angular.module('spectacleStore.controllers', [])
 
-    .controller('AppCtrl', ['$rootScope', '$ionicModal', 'AuthFactory', '$location', 'UserFactory', '$scope','TicketsDataService', 'Loader', '$state',
+    .controller('AppCtrl', ['$rootScope', '$ionicModal', 'AuthFactory', '$location', 'UserFactory', '$scope', 'TicketsDataService', 'Loader', '$state',
         function ($rootScope, $ionicModal, AuthFactory, $location, UserFactory, $scope, TicketsDataService, Loader, $state) {
 
 
@@ -19,75 +19,6 @@ angular.module('BookStoreApp.controllers', [])
             }
 
 
-        }
-    ])
-
-    .controller('BrowseCtrl', ['$scope', 'LSFactory', 'Loader',
-        function ($scope, LSFactory, Loader) {
-
-        }
-    ])
-
-    .controller('BookCtrl', ['$scope', '$state', 'LSFactory', 'AuthFactory', '$rootScope', 'UserFactory', 'Loader',
-        function ($scope, $state, LSFactory, AuthFactory, $rootScope, UserFactory, Loader) {
-
-        }
-    ])
-
-    .controller('PurchasesCtrl', ['$scope', '$rootScope', 'AuthFactory', 'UserFactory', '$timeout', 'Loader',
-        function ($scope, $rootScope, AuthFactory, UserFactory, $timeout, Loader) {
-            // http://forum.ionicframework.com/t/expandable-list-in-ionic/3297/2
-            $scope.groups = [];
-
-            $scope.toggleGroup = function (group) {
-                if ($scope.isGroupShown(group)) {
-                    $scope.shownGroup = null;
-                } else {
-                    $scope.shownGroup = group;
-                }
-            };
-            $scope.isGroupShown = function (group) {
-                return $scope.shownGroup === group;
-            };
-
-            $scope.$on('getPurchases', function () {
-                Loader.showLoading('Fetching Your Purchases');
-                UserFactory.getPurchases().success(function (data) {
-                    var purchases = data.data;
-                    $scope.purchases = [];
-                    for (var i = 0; i < purchases.length; i++) {
-                        var key = Object.keys(purchases[i]);
-                        $scope.purchases.push(key[0]);
-                        $scope.groups[i] = {
-                            name: key[0],
-                            items: purchases[i][key]
-                        }
-                        var sum = 0;
-                        for (var j = 0; j < purchases[i][key].length; j++) {
-                            sum += parseInt(purchases[i][key][j].price);
-                        };
-                        $scope.groups[i].total = sum;
-                    };
-                    Loader.hideLoading();
-                }).error(function (err, statusCode) {
-                    Loader.hideLoading();
-                    Loader.toggleLoadingWithMessage(err.message);
-                });
-            });
-
-            if (!AuthFactory.isLoggedIn()) {
-                $rootScope.$broadcast('showLoginModal', $scope, function () {
-                    $timeout(function () {
-                        $location.path('/app/browse');
-                    }, 200);
-                }, function () {
-                    // user is now logged in
-                    $scope.$broadcast('getPurchases');
-                });
-                return;
-            }
-
-            $scope.$broadcast('getPurchases');
         }
     ])
 
@@ -255,7 +186,7 @@ angular.module('BookStoreApp.controllers', [])
          * methods
          */
 
-        var getTickets = function(){
+        var getTickets = function () {
             $scope.list = TicketsDataService.getTickets();
 
             console.log($scope.list);
@@ -288,7 +219,7 @@ angular.module('BookStoreApp.controllers', [])
 
     })
 
-    .controller('TicketPurchaseController', function ($scope, TicketsDataService, $stateParams, $state, $ionicHistory) {
+    .controller('TicketPurchaseController', function ($scope, $ionicPopup, TicketsDataService, $stateParams, $state, $ionicHistory) {
 
         /**
          * scope variables
@@ -343,12 +274,19 @@ angular.module('BookStoreApp.controllers', [])
             $state.go('spec-detail', { obj: data });
         }
 
-        $scope.purchase = function(specData){
+        $scope.purchase = function (specData) {
 
             specData.totalTickets = totalTickets;
             TicketsDataService.setTicket(specData);
 
-            
+            var alertPopup = $ionicPopup.alert({
+                title: 'Success!',
+                template: 'Tickets Purchased Successfully'
+            }).then(function (res) {
+            });
+
+
+
         }
 
     })
