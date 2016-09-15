@@ -53,9 +53,9 @@ angular.module('spectacleStore.controllers', [])
                     console.log(success);
                     AuthFactory.setUser(success);
                     $rootScope.isAuthenticated = true;
-                    if ($stateParams.obj != null) { //if user if brought to the login page from purchase screen, redirect him back to purchase screen
+                    if ($stateParams.obj != null) { //se o utilizador vem para pagina de login da pagina de compra, redireciona-o de volta para a página de compra
                         $state.go('purchase', { obj: $stateParams.obj });
-                    } else { //otherwise redirect him to main page
+                    } else { //se nao manda-o para a pagina de inicio
                         $state.go('app.search');
                     }
                 },
@@ -75,9 +75,8 @@ angular.module('spectacleStore.controllers', [])
 
             // Loader.showLoading('Registering...');
 
-
-            //here will come the code to register the user
-            //means to put user information on browser cache
+            //aqui vai o codigo para registar o utilizador
+            //poe a informacao do utilizador no cache do browser
 
             UserFactory.register($scope.user).then(
                 function (success) {
@@ -87,7 +86,7 @@ angular.module('spectacleStore.controllers', [])
                         title: 'Success',
                         template: "Registered successfully, please login with your user name and password"
                     }).then(function (res) {
-                        $scope.viewLogin = true; //redirecting user to login screen
+                        $scope.viewLogin = true; //redireciona o utilizador para login screen
                     });
 
 
@@ -112,17 +111,17 @@ angular.module('spectacleStore.controllers', [])
             $location.path('/login');
         }
 
-        //this method will be called whenever the state will be loaded.
-        //this method renders the ionic modal which consists of login and registration screen 
+        //este metodo vai ser chamado sempre quando o estado vai estar a carregar.
+        //este metodo faz render de ionic modal que consiste de login e ecra de registo
+         
         // $rootScope.loginFromMenu();
-
 
     })
 
 
     .controller('SearchController', function ($scope, $rootScope,  SpectaclesDataFactory, $state) {
         /**
-         * scope variables
+         * scope das variaveis
          */
         $scope.spectacleList = [];
         var Data = [];
@@ -132,7 +131,7 @@ angular.module('spectacleStore.controllers', [])
         $scope.noData = false;
 
         /**
-         * Methods
+         * Metodos
          */
 
         var getAllSpecs = function () {
@@ -167,7 +166,7 @@ angular.module('spectacleStore.controllers', [])
 
         }
 
-        getAllSpecs(); //getting data from factory
+        getAllSpecs(); //receber dados do factory
 
         $scope.gotoDetail = function (data) {
             console.log(data);
@@ -179,12 +178,12 @@ angular.module('spectacleStore.controllers', [])
 
     .controller('TicketController', function ($scope, TicketsDataService, $rootScope, $state) {
         /**
-         * scope variables
+         * scope das variaveis
          */
         $scope.list = [];
 
         /**
-         * methods
+         * metodos
          */
 
         var getTickets = function () {
@@ -206,23 +205,23 @@ angular.module('spectacleStore.controllers', [])
 
     .controller('DetailController', function ($scope, $stateParams, $rootScope,  $state, $ionicHistory) {
         /**
-         * scope variables
+         * scope das variaveis
          */
-        //check if state param is not null
+        //verifica se o estado dos param nao esta nulo
         $scope.spectacle = $stateParams.obj === null ? '' : $stateParams.obj;
 
         /**
-         * methods
+         * metodos
          */
 
         $scope.goBack = function () {
             if ($rootScope.fromTicket) {
-                console.log('going to tickets list');
+                console.log('vai para lista de bilhetes');
                 $state.go('app.ticket');
             } else if($rootScope.fromPurchase) { 
                 $ionicHistory.goBack();
             }else{
-                console.log('going to search list');
+                console.log('vai para lista de pesquisa');
                 $state.go('app.search');
             }
         }
@@ -237,7 +236,7 @@ angular.module('spectacleStore.controllers', [])
     .controller('TicketPurchaseController', function ($scope, $rootScope, $ionicPopup, TicketsDataService, $stateParams, $state, $ionicHistory) {
 
         /**
-         * scope variables
+         * scope das variaveis
          */
         $scope.spectacle = $stateParams.obj === null ? '' : $stateParams.obj;
         $scope.table = [];
@@ -245,7 +244,7 @@ angular.module('spectacleStore.controllers', [])
         var totalTickets = 0;
 
         /**
-         * methods
+         * metodos
          */
         $scope.goBack = function () {
             $state.go('spec-detail', { obj: $scope.spectacle });
@@ -270,8 +269,8 @@ angular.module('spectacleStore.controllers', [])
 
         $scope.addtoTable = function (type, amount) {
             var cost = getCost(type);
-            totalTickets += parseInt(amount); //Keeping track of how many tickets are purchased.
-            //temporary object that we will format and insert in $scope.table
+            totalTickets += parseInt(amount); //tracking de quantos bilhetes foram comprados
+            //objeto temporario que nos vamos formatar e inserir em $scope.table
             var obj = {
                 type: type,
                 cost: cost,

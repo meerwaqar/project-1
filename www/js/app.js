@@ -1,20 +1,22 @@
 // Ionic Starter App
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
+// angular .module e o sitio global para criacao, registo e recepcao de Algular modules 
+
+// 'starter' e o nome deste exemplo de angular module (tambem definido em <body> atributo no  index.html)
+
+// o segundo paramento e um array dos 'requisitos'
+//
 angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'spectacleStore.factory'])
 
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
-            // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-            // for form inputs)
+            // Oculta a barra de acessorios por defeito (remove este para mostrar a barra de acessórios acima do teclado)
+            // para form inputs)
             if (window.cordova && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             }
             if (window.StatusBar) {
-                // org.apache.cordova.statusbar required
+                // org.apache.cordova.statusbar necessario
                 StatusBar.styleDefault();
             }
         });
@@ -23,7 +25,7 @@ angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'specta
 
             $rootScope.isAuthenticated = AuthFactory.isLoggedIn();
 
-            // utility method to convert number to an array of elements
+            // metodo para converter o numero para um array
             $rootScope.getNumber = function (num) {
                 return new Array(num);
             }
@@ -37,7 +39,7 @@ angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'specta
             $stateProvider
 
                 /**
-                 * State for login screen
+                 * Estado para ecra de login
                  */
                 .state('login', {
                     url: "/login",
@@ -76,26 +78,26 @@ angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'specta
                 })
 
                 /**
-                 * Spectacle Detail screen state
+                 * Spectacle Detail estado do ecra
                  */
 
                 .state('spec-detail', {
                     url: "/detail",
                     templateUrl: "templates/detail.html",
                     controller: 'DetailController',
-                    params: { //stateParams that we will get from controller which will call transition to this state
+                    params: { //stateParams vai obter do controller que vai receber chamada para mudar para este estado
                         obj: null
                     }
                 })
 
                 /**
-                 * Ticket Purchase screen state
+                 * Compra do bilhete estado do ecra
                  */
                 .state('purchase', {
                     url: "/purchase",
                     templateUrl: "templates/purchase.html",
                     controller: 'TicketPurchaseController',
-                    params: { //stateParams that we will get from controller which will call transition to this state
+                    params: {  //stateParams vai obter do controller que vai receber chamada para mudar para este estado
                         obj: null
                     },
                     resolve: {
@@ -116,10 +118,6 @@ angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'specta
                     }
                 });
 
-
-
-
-            // if none of the above states are matched, use this as the fallback
             $urlRouterProvider.otherwise('/app/search');
         }
     ])
