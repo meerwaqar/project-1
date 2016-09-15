@@ -277,6 +277,7 @@ angular.module('spectacleStore.controllers', [])
         $scope.purchase = function (specData) {
 
             specData.totalTickets = totalTickets;
+            specData.totalCost = $scope.totalCost;
             TicketsDataService.setTicket(specData);
 
             var alertPopup = $ionicPopup.alert({
