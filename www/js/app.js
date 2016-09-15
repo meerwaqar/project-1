@@ -33,7 +33,6 @@ angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'specta
         function ($stateProvider, $urlRouterProvider, $httpProvider) {
 
             // setup the token interceptor
-            $httpProvider.interceptors.push('TokenInterceptor');
 
             $stateProvider
 

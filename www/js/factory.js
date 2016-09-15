@@ -1,6 +1,3 @@
-//var base = 'http://localhost:3000';
-var base = 'https://ionic-book-store.herokuapp.com';
-
 angular.module('spectacleStore.factory', [])
 
     .factory('Loader', ['$ionicLoading', '$timeout', function ($ionicLoading, $timeout) {
@@ -50,19 +47,6 @@ angular.module('spectacleStore.factory', [])
 
             delete: function (key) {
                 return localStorage.removeItem(key);
-            },
-
-            getAll: function () {
-                var books = [];
-                var items = Object.keys(localStorage);
-
-                for (var i = 0; i < items.length; i++) {
-                    if (items[i] !== 'user' || items[i] != 'token') {
-                        books.push(JSON.parse(localStorage[items[i]]));
-                    }
-                }
-
-                return books;
             }
 
         };
@@ -107,29 +91,6 @@ angular.module('spectacleStore.factory', [])
         };
 
         return AuthAPI;
-
-    }])
-
-    .factory('TokenInterceptor', ['$q', 'AuthFactory', function ($q, AuthFactory) {
-
-        return {
-            request: function (config) {
-                config.headers = config.headers || {};
-                var token = AuthFactory.getToken();
-                var user = AuthFactory.getUser();
-
-                if (token && user) {
-                    config.headers['X-Access-Token'] = token.token;
-                    config.headers['X-Key'] = user.email;
-                    config.headers['Content-Type'] = "application/json";
-                }
-                return config || $q.when(config);
-            },
-
-            response: function (response) {
-                return response || $q.when(response);
-            }
-        };
 
     }])
 
@@ -181,26 +142,6 @@ angular.module('spectacleStore.factory', [])
 
                 logout: function () {
                     AuthFactory.deleteAuth();
-                },
-
-                getCartItems: function () {
-                    var userId = AuthFactory.getUser()._id;
-                    return $http.get(base + '/api/v1/users/' + userId + '/cart');
-                },
-
-                addToCart: function (book) {
-                    var userId = AuthFactory.getUser()._id;
-                    return $http.post(base + '/api/v1/users/' + userId + '/cart', book);
-                },
-
-                getPurchases: function () {
-                    var userId = AuthFactory.getUser()._id;
-                    return $http.get(base + '/api/v1/users/' + userId + '/purchases');
-                },
-
-                addPurchase: function (cart) {
-                    var userId = AuthFactory.getUser()._id;
-                    return $http.post(base + '/api/v1/users/' + userId + '/purchases', cart);
                 }
 
             };
