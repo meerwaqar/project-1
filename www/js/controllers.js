@@ -1,5 +1,9 @@
 angular.module('spectacleStore.controllers', [])
 
+    /*
+    AppCtrl, este controlador gere funcionalidades login/register.
+    Nos adicionamos definicao e todas as dependencias.
+    */
     .controller('AppCtrl', ['$rootScope', '$ionicModal', 'AuthFactory', '$location', 'UserFactory', '$scope', 'TicketsDataService', 'Loader', '$state',
         function ($rootScope, $ionicModal, AuthFactory, $location, UserFactory, $scope, TicketsDataService, Loader, $state) {
 
@@ -17,8 +21,6 @@ angular.module('spectacleStore.controllers', [])
                 $state.go('login', { obj: null });
 
             }
-
-
         }
     ])
 
@@ -46,7 +48,6 @@ angular.module('spectacleStore.controllers', [])
         }
 
         $scope.login = function () {
-            // Loader.showLoading('Authenticating...');
 
             UserFactory.login($scope.user).then(
                 function (success) {
@@ -71,9 +72,6 @@ angular.module('spectacleStore.controllers', [])
         }
 
         $scope.register = function () {
-
-
-            // Loader.showLoading('Registering...');
 
             //aqui vai o codigo para registar o utilizador
             //poe a informacao do utilizador no cache do browser
@@ -112,9 +110,7 @@ angular.module('spectacleStore.controllers', [])
         }
 
         //este metodo vai ser chamado sempre quando o estado vai estar a carregar.
-        //este metodo faz render de ionic modal que consiste de login e ecra de registo
-         
-        // $rootScope.loginFromMenu();
+        //este metodo faz render de ionic modal que consiste de login e ecra de registo.
 
     })
 
