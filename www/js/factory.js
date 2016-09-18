@@ -1,20 +1,22 @@
 angular.module('spectacleStore.factory', [])
-
+    
+    //Loader gere loading do ionic
     .factory('Loader', ['$ionicLoading', '$timeout', function ($ionicLoading, $timeout) {
 
         var LOADERAPI = {
-
+            //mostra Loading
             showLoading: function (text) {
                 text = text || 'Loading...';
                 $ionicLoading.show({
                     template: text
                 });
             },
-
+            //esconde Loading
             hideLoading: function () {
                 $ionicLoading.hide();
             },
-
+            /* Mostra modulo usando showLoading com a mensagem desejada e esconde-a com o tempo posto ou depois das 3 segundos.
+            */
             toggleLoadingWithMessage: function (text, timeout) {
                 var self = this;
 
@@ -29,6 +31,10 @@ angular.module('spectacleStore.factory', [])
         return LOADERAPI;
     }])
 
+    //LSFactory - trata de armazenamento local
+    /*
+    *
+    */
     .factory('LSFactory', [function () {
 
         var LSAPI = {
@@ -55,7 +61,7 @@ angular.module('spectacleStore.factory', [])
 
     }])
 
-
+    //AuthFactory - gere autenticacao local
     .factory('AuthFactory', ['LSFactory', function (LSFactory) {
 
         var userKey = 'user';
@@ -94,6 +100,7 @@ angular.module('spectacleStore.factory', [])
 
     }])
 
+    //UserFactory - gere login, registo
     .factory('UserFactory', ['$http', 'AuthFactory', 'LocalStorageFactory', '$q',
         function ($http, AuthFactory, LocalStorageFactory, $q) {
 
@@ -122,11 +129,12 @@ angular.module('spectacleStore.factory', [])
                 },
 
                 register: function (user) {
+                    
+                    //O servico que lhe ajuda para correr as funcoes nao ao mesmo tempo, e e para utiliza-los para devolver os valores (ou excepcoes) quanto os mesmos ficam processados.
+                    
+                    var deffered = $q.defer(); // vamos utilizar $q service de angularJS, 
 
-                    //A service that helps you run functions asynchronously, and use their return values (or exceptions) when they are done processing.
-                    var deffered = $q.defer(); // we will use $q service of angularJS, 
-
-                    var obj = LocalStorageFactory.getObject(user.email); //to see if user is already registered
+                    var obj = LocalStorageFactory.getObject(user.email); //para verificar se o utilizador ja esta registado
 
                     if (!obj) {
                         LocalStorageFactory.setObject(user, user.email);
@@ -136,7 +144,6 @@ angular.module('spectacleStore.factory', [])
                     }
 
                     return deffered.promise;
-
 
                 },
 
@@ -151,9 +158,9 @@ angular.module('spectacleStore.factory', [])
     ])
 
     .factory('LocalStorageFactory', function (LSFactory) {
-
+    
         /**
-         * This factory deals with storing and retrieving data from browser's local storage also know as cache
+         * Estes detalhes de factory guardam e devolvem os dados do cache do browser.
          */
 
         var setObject = function (obj, key) {
@@ -174,8 +181,6 @@ angular.module('spectacleStore.factory', [])
             getObject: getObject
         }
 
-        // window.localStorage['storageName']
-
     })
 
     .factory('SpectaclesDataFactory', function ($q) {
@@ -187,23 +192,80 @@ angular.module('spectacleStore.factory', [])
 
         var populateData = function () {
 
-            //generating random data
-            for (var i = 0; i < 20; i++) {
+            //Geracao espetaculos aleatorios
+            /*for (var i = 0; i < 20; i++) {
                 var num = i%2 == 0 ? '1' : '2'; 
                 var obj = {
                     id : i,
-                    name: 'name ' + i,
+                    name: 'Spectacle ' + i,
+                    //para escolher imagens aleatorios
                     photo: i % 2 == 0 ? 'img/0.jpg' : 'img/1.jpg',
                     date: randomDate(new Date(), new Date(2016, 12, 21)),
-                    location: 'location ' + i + 1,
+                    location: 'Location: Royal Opera House ',
                     purchases : 0,
                     category : 'category '+ num,
-                    description : 'this is a very nice spectacle',
+                    description : 'This spectacle will be the greatest that you ever seen.',
                     artist : ['artist1', 'artist2'],
                     promoter : 'm&G'
                 }
                 spectacles.push(obj);
+            }*/
+            var obj = {
+                id : 0,
+                name: 'Royal Opera House ',
+                photo: 'img/0.jpg',
+                date: randomDate(new Date(), new Date(2016, 12, 21)),
+                location: 'Royal Opera House ',
+                purchases : 0,
+                category : 'category ',
+                description : 'Its School of Rock! The Broadway version of this brand new musical, based on the hit movie, has Andrew Lloyd Webber and Julian Fellowes to thank for its broad people-appeal. Theyre both involved in the production, a considerable theatrical accolade in itself.',
+                artist : ['David Fynn'],
+                promoter : 'M&G'
             }
+            spectacles.push(obj);
+            
+            var obj = {
+                id : 1,
+                name: 'Phantom of the Opera',
+                photo: 'img/1.jpg',
+                date: randomDate(new Date(), new Date(2016, 12, 21)),
+                location: 'Royal Opera House ',
+                purchases : 0,
+                category : 'category ',
+                description : 'Sir Andrew Lloyd Webber’s triumphant show tells the sad tale of a deformed, masked mystery man and his obsession with Christine, a beautiful young singer. Opening in Paris in 1911, an auctioneer selling the contents of the Paris Opera House tells the story of the Phantom, transporting the audience back in time to enjoy this thrilling tale.',
+                artist : ['Andrew Lloyd'],
+                promoter : 'M&G'
+            }
+            spectacles.push(obj);
+            
+            var obj = {
+                id : 2,
+                name: 'The Book of Mormon',
+                photo: 'img/3.jpg',
+                date: randomDate(new Date(), new Date(2016, 12, 21)),
+                location: 'Royal Opera House ',
+                purchases : 0,
+                category : 'category ',
+                description : 'Its hilarious, irreverent and very, very silly. The Book of Mormon was written by Trey Parker and Matt Stone, who created the popular adult cartoon series South Park, plus Robert Lopez who created the US stage hit Avenue Q. It marks Parker and Stones Broadway debut… and what a debut it is!',
+                artist : ['Trey Parker,' ,'Matt Stone'],
+                promoter : 'M&G'
+            }
+            spectacles.push(obj);
+            
+            var obj = {
+                id : 3,
+                name: 'The Lion King',
+                photo: 'img/4.jpg',
+                date: randomDate(new Date(), new Date(2016, 12, 21)),
+                location: 'Royal Opera House ',
+                purchases : 0,
+                category : 'category ',
+                description : 'Transport yourself and your children to the magical world of the African bush, where life-size animals roam the stage and a magical tale of triumph against evil unfolds. With six coveted Tony Awards, a Grammy award for the show album and two prestigious Olivier awards under its belt, this is a real show stopper of a musical for the whole family.',
+                artist : ['Trey John,' ,'Elton Stone'],
+                promoter : 'M&G'
+            }
+            spectacles.push(obj);
+                
         }
 
         var getSpectacleList = function () {
@@ -219,7 +281,7 @@ angular.module('spectacleStore.factory', [])
             var result = [];
             var deffered = $q.defer();
             angular.forEach(data, function (item) {
-                if (item.name.indexOf(str) != -1) { // if str is a substring of item.name
+                if (item.name.indexOf(str) != -1) { // se string substitui item.name
                     result.push(item);
                 }
             })
@@ -248,14 +310,14 @@ angular.module('spectacleStore.factory', [])
             //generating random data
             for (var i = 0; i < 20; i++) {
                 var obj = {
-                    name: 'name ' + i,
+                    name: 'Spectacle ' + i,
                     photo: i % 2 == 0 ? 'img/0.jpg' : 'img/1.jpg',
                     date: randomDate(new Date(), new Date(2016, 12, 21)),
-                    location: 'location ' + i + 1,
+                    location: 'London,Royal Opera House  ' + i + 1,
                     ticketPurchased : 0
                 }
                 shows.push(obj);
-            }
+            }  
         }
 
         var getShowsList = function () {

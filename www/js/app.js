@@ -1,13 +1,14 @@
 // Ionic Starter App
 
-// angular .module e o sitio global para criacao, registo e recepcao de Algular modules 
+// angular .module e a diretoria geral para criacao, registo e recepcao de modulos angulares
 
-// 'starter' e o nome deste exemplo de angular module (tambem definido em <body> atributo no  index.html)
+// 'starter' e o nome deste exemplo de modulo angular (tambem definido em <body> atributo no  index.html)
 
 // o segundo paramento e um array dos 'requisitos'
 //
 angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'spectacleStore.factory'])
 
+    //Run - metodo, possibilidade de mostrar e esconder login e logout, baseados nos valores isAuthenticated. Esta propriedade e inicializada aqui
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
             // Oculta a barra de acessorios por defeito (remove este para mostrar a barra de acessórios acima do teclado)
@@ -49,14 +50,15 @@ angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'specta
                         obj: null
                     }
                 })
-
+                //app: rota abstratrata que gere a vista principal da aplicacao
                 .state('app', {
                     url: "/app",
                     abstract: true,
                     templateUrl: "templates/menu.html",
                     controller: 'AppCtrl'
                 })
-
+                
+                //search: home page da aplicacao, onde nos podemos ver os espetaculos.
                 .state('app.search', {
                     url: "/search",
                     views: {
@@ -66,7 +68,8 @@ angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'specta
                         }
                     }
                 })
-
+                
+                //ticket: usado para ver os bilhetes adequiridos
                 .state('app.ticket', {
                     url: "/ticket",
                     views: {
@@ -77,10 +80,7 @@ angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'specta
                     }
                 })
 
-                /**
-                 * Spectacle Detail estado do ecra
-                 */
-
+                //spec-detail - serve para ver detalhes do espetaculo
                 .state('spec-detail', {
                     url: "/detail",
                     templateUrl: "templates/detail.html",
@@ -90,9 +90,7 @@ angular.module('spectacleStore', ['ionic', 'spectacleStore.controllers', 'specta
                     }
                 })
 
-                /**
-                 * Compra do bilhete estado do ecra
-                 */
+                //purchase - estado do ecra compra do bilhete
                 .state('purchase', {
                     url: "/purchase",
                     templateUrl: "templates/purchase.html",
